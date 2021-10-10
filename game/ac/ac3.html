@@ -1,0 +1,93 @@
+<html><head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+        <script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+        <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href="http://pingendo.github.io/pingendo-bootstrap/themes/default/bootstrap.css" rel="stylesheet" type="text/css">
+    </head><body>
+        <div class="navbar navbar-default navbar-inverse">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-ex-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                        <?if($member[user_id]){ }else{?>
+                            <a class="navbar-brand" href="../../member/login.html"><span>Login</span></a>
+                        <?}?>
+                        <?if($member[user_id]){?>
+                            <a class="navbar-brand" href="../../member/logout.php"><span>Logout</span></a>
+                        <?}?>
+                </div>
+                <div class="collapse navbar-collapse" id="navbar-ex-collapse">
+                    <ul class="lead nav navbar-nav navbar-right">
+                        <li class="active">
+                            <a href="../../index.html">Home</a>
+                        </li>
+                        <li>
+                            <a href="../../board/bbs1/list.html">Board</a>
+                        </li><li>
+                            <a href="../../music.html">Music</a>
+                        </li>
+                        <li>
+                            <a href="../game.html">Game</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1 contenteditable="true">
+                            <b>애리조나 조</b>
+                        </h1>
+                        <pre>                            <code>
+                                <embed type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" height="480" width="640" src="http://f.kbhgames.com/2015/06/Arizona-Joe.swf" wmode="transparent" allowscriptaccess="always" allownetworking="internal" quality="high">
+                            </code>
+                        </pre><p contenteditable="true">키보드만으로 조작합니다.<br>방향키 : 이동<br>Z : 폭탄 설치<br>X : 폭탄 들기, 던지기</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+		<footer class="section section-primary">
+			<div class="container">
+				<div class="row">
+				  <div class="col-sm-6">
+					<h1>운영체제기초 팀과제!</h1>
+					<p>본 사이트는 운영체제기초 팀과제 이며 데모가 &nbsp;끝난 후 없어질 예정입니다.
+					  <br>그리고 옆에 있는 아이콘은 그냥 장식용으로 넣었으니
+					  <br>별다른 기능이 없습니다!</p>
+				  </div>
+				  <div class="col-sm-6">
+					<p class="text-info text-right">
+					  <br>
+					  <br>
+					</p>
+					<div class="row">
+					  <div class="col-md-12 hidden-lg hidden-md hidden-sm text-left">
+						<a href="#"><i class="fa fa-3x fa-fw fa-instagram text-inverse"></i></a>
+						<a href="#"><i class="fa fa-3x fa-fw fa-twitter text-inverse"></i></a>
+						<a href="#"><i class="fa fa-3x fa-fw fa-facebook text-inverse"></i></a>
+						<a href="#"><i class="fa fa-3x fa-fw fa-github text-inverse"></i></a>
+					  </div>
+					</div>
+					<div class="row">
+					  <div class="col-md-12 hidden-xs text-right">
+						<a href="#"><i class="fa fa-3x fa-fw fa-instagram text-inverse"></i></a>
+						<a href="#"><i class="fa fa-3x fa-fw fa-twitter text-inverse"></i></a>
+						<a href="#"><i class="fa fa-3x fa-fw fa-facebook text-inverse"></i></a>
+						<a href="#"><i class="fa fa-3x fa-fw fa-github text-inverse"></i></a>
+					  </div>
+					</div>
+				  </div>
+				</div>
+			</div>
+		</footer>
+    
+
+</body></html>

@@ -1,0 +1,253 @@
+<html><head>
+			<?
+			include('../../lib/db_connect.php');
+			$connect=dbconn(); //DB컨넥트
+			$member=member();  //회원정보
+			?>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+            <script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+            <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+            <link href="http://pingendo.github.io/pingendo-bootstrap/themes/default/bootstrap.css" rel="stylesheet" type="text/css">
+    </head><body>
+        <div class="navbar navbar-default navbar-inverse">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-ex-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <?if($member[user_id]){ }else{?>
+                        <a class="navbar-brand" href="../../member/login.html"><span>Login</span></a>
+                    <?}?>
+                    <?if($member[user_id]){?>
+                        <a class="navbar-brand" href="../../member/logout.php"><span>Logout</span></a>
+                    <?}?>
+                </div>
+                <div class="collapse navbar-collapse" id="navbar-ex-collapse">
+                    <ul class="lead nav navbar-nav navbar-right">
+                        <li class="active">
+                            <a href="../../index.html">Home</a>
+                        </li>
+                        <li>
+                            <a href="list.html">Board</a>
+                        </li>
+                        <li>
+                            <a href="../../music.html">Music</a>
+                        </li>
+                        <li>
+                            <a href="../../game/game.html">Game</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+			<?
+				$_page=$_GET[_page];
+				
+				$Search_text=$_GET[Search_text];
+				$Search_mode=$_GET[Search_mode];
+
+				$view_total = 3; //한 페이지에 3개 게시글이 보인다.
+				if(!$_page)($_page=1); //페이지 번호가 지정이 안되었을 경우
+				$page= ($_page-1)*$view_total;
+				
+				$where="no";
+
+				//검색할 종목을 선택 했을 때.
+				 if($Search_text){
+				   if($Search_mode==1) $tmp="subject";
+				   if($Search_mode==2) $tmp="story";
+
+				//전체에서 검색
+				if($Search_mode==3){
+				 $where="(subject like '%$Search_text%' or story like '%$Search_text%')"; 
+				}else{
+				 $where="$tmp like '%$Search_text%'";
+				}
+				}
+
+				$query="select count(*) from bbs1 where $where and id='bbs1'";
+				mysql_query("set names utf8");  //언어셋 utf8
+				$result= mysql_query($query, $connect);
+				$temp= mysql_fetch_array($result);
+				$totals= $temp[0];
+
+			?>
+            <div class="section">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h1>
+                                <b>자유게시판</b>
+                            </h1>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>no</th>
+                                        <th>닉네임</th>
+                                        <th contenteditable="true">제목</th>
+                                        <th>날짜</th>
+                                        <th>조회수</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+									<?
+									$query= "select * from bbs1 where $where and id='bbs1' order by no desc limit $page, $view_total";  //desc 내림차순   ASC 오름차순
+									$result=mysql_query($query,$connect);
+									$cnt=1;
+									while($data = mysql_fetch_array($result)){
+									$date_y= substr($data[regdate],2,2); //년도
+									$date_m= substr($data[regdate],4,2); //월 
+									$date_d= substr($data[regdate],6,2); //일
+									$date_h= substr($data[regdate],8,2); //시간
+									$date_i= substr($data[regdate],10,2); //분
+
+									$subject= mb_substr($data[subject], 0, 26,'UTF-8');
+									?>
+									<tr>
+									  <td><?=$cnt?></td>
+									  <td><?=$data[nick_name]?></td>
+									  <td><a href='./view.html?no=<?=$data[no]?>&id=<?=$data[id]?>'><?=$data[subject]?>
+									  &nbsp; &nbsp; <? if($data[comment]>=1) echo ("[".$data[comment]."]");?></a></td>
+									  <td><?echo $date_y.".".$date_m.".".$date_d."&nbsp; &nbsp;".$date_h.":".$date_i; ?></td>
+									  <td><?=$data[hit]?></td>
+									</tr>
+									<?
+									$cnt++;
+									}?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a class="btn btn-primary" href="./write.html">글쓰기</a>&nbsp;<a class="btn btn-primary" href="./poplist.html">인기게시판</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <ul class="pagination">
+                                <div id="page_1">
+								<?
+								//총게시물                 $totals
+								//한페이지 나타날 게시글수 $view_total
+								$rr=ceil($totals/$view_total);
+
+
+								//이전 페이지 구하기
+								 $before= $_page-1; //현재 페이지수 에서 -1을 준다.
+								 if($before<1)($before=1); 
+
+								//다음 페이지 구하기
+								$next= $_page + 1; 
+								if($next>$rr)($next=$rr);
+
+
+								//그룹페이지 구성//
+								//(처음)
+								if($_page%10){$goto=$_page-$_page%10+1; //한 그룹당 10개 페이지를 지정 '10'을 넘기면 1을 증가.
+									 }elseif($goto=$_page -9); // '10'배수가 아니면 -'9' 
+
+								//(끝)
+
+								//그룹페이지 구성 (끝)//
+								$last= $goto + 10; //예) $goto='1'이라면 $last='11'이 되어야 합니다. 
+								?>
+								</div>
+								  <li>
+									<?$before_group= $goto -1;
+									if($before_group<1)($before_group=1);
+									if($_page !=1)echo ("<a href=$PHP_SELF?_page=$before_group$href>Prev</a>");?>
+									<!--<a href="#">Prev</a>-->
+								  </li>
+								<?//페이지 번호 출력
+								for($e=$goto; $e<$last; $e++){ //현재페이지가 전체페이지 보다 작으면 페이지를 증가
+									if($e>$rr) break; //총 나타날 페이지 번호 보다 크면 멈추고 다음을 실행.
+									?>
+									<li>
+									<?if($e==$_page) echo ("<a href='#'>$e</a>");  //$e 와 $_page번호가 서로 같으면....
+												   else{
+													   echo ("&nbsp; <a href=$PHP_SELF?_page=$e$href>$e</a>");  //$e와 $_page번호가 서로 같지 않으면...
+												   }?>
+									</li>
+								<?}?>
+								  <li>
+									<?
+									//다음페이지 그룹 출력
+									$next_group= $last;
+									if($next_group > $rr)($next_group=$rr); //$next_group는 $rr보다 크면 $rr은 $next_group가 된다.
+									if($_page !=$rr) echo ("<a href=$PHP_SELF?_page=$next_group$href>Next</a>");?>
+									<!--<a href="#">Next</a>-->
+                                  </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+			<tr>
+			<!---게시물 검색--->
+			<form action='<?=$PHP_SELE?>'>
+			 <td height='20' colspan='5' bgcolor='#FFFFFF' align='right'> 
+			 Search &nbsp;
+			 <select name='Search_mode'>
+			   <option value='3'>전체에서
+			   <option value='1'> 제목에서
+			   <option value='2'>내용에서
+			   </select>
+
+			   <input type='text' name='Search_text' size='10'>
+			   <input type='submit' value='Search'>
+			   &nbsp; &nbsp; 
+			   <input type='reset' value='리셋' onclick='location.reload();'>
+			   &nbsp;
+			 </td>
+			 </form>
+			</tr>
+			<footer class="section section-primary">
+		    <div class="container">
+			<div class="row">
+			  <div class="col-sm-6">
+				<h1>운영체제기초 팀과제!</h1>
+				<p>본 사이트는 운영체제기초 팀과제 이며 데모가 &nbsp;끝난 후 없어질 예정입니다.
+				  <br>그리고 옆에 있는 아이콘은 그냥 장식용으로 넣었으니
+				  <br>별다른 기능이 없습니다!</p>
+			  </div>
+			  <div class="col-sm-6">
+				<p class="text-info text-right">
+				  <br>
+				  <br>
+				</p>
+				<div class="row">
+				  <div class="col-md-12 hidden-lg hidden-md hidden-sm text-left">
+					<a href="#"><i class="fa fa-3x fa-fw fa-instagram text-inverse"></i></a>
+					<a href="#"><i class="fa fa-3x fa-fw fa-twitter text-inverse"></i></a>
+					<a href="#"><i class="fa fa-3x fa-fw fa-facebook text-inverse"></i></a>
+					<a href="#"><i class="fa fa-3x fa-fw fa-github text-inverse"></i></a>
+				  </div>
+				</div>
+				<div class="row">
+				  <div class="col-md-12 hidden-xs text-right">
+					<a href="#"><i class="fa fa-3x fa-fw fa-instagram text-inverse"></i></a>
+					<a href="#"><i class="fa fa-3x fa-fw fa-twitter text-inverse"></i></a>
+					<a href="#"><i class="fa fa-3x fa-fw fa-facebook text-inverse"></i></a>
+					<a href="#"><i class="fa fa-3x fa-fw fa-github text-inverse"></i></a>
+				  </div>
+				</div>
+			  </div>
+			</div>
+		    </div>
+		    </footer>
+
+</body></html>

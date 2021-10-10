@@ -1,0 +1,160 @@
+<html><head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+        <script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+        <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href="http://pingendo.github.io/pingendo-bootstrap/themes/default/bootstrap.css" rel="stylesheet" type="text/css">
+    </head><body>
+        <?include ( "./lib/db_connect.php"); $connect=dbconn(); $member=member();?>
+            <div class="navbar navbar-default navbar-inverse">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-ex-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+						  <?if($member[user_id]){ }else{?>
+						  <a class="navbar-brand" href="./member/login.html"><span>Login</span></a>
+						  <?}?>
+						  <?if($member[user_id]){?>
+						  <a class="navbar-brand" href="./member/logout.php"><span>Logout</span></a>
+						  <?}?>
+                    </div>
+                    <div class="collapse navbar-collapse" id="navbar-ex-collapse">
+                        <ul class="lead nav navbar-nav navbar-right">
+                            <li class="active">
+                                <a href="index.html">Home</a>
+                            </li>
+                            <li>
+                                <a href="board\bbs1\list.html">Board</a>
+                            </li>
+                            <li>
+                                <a href="music.html">Music</a>
+                            </li>
+                            <li>
+                                <a href="game\game.html">Game</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div id="carousel-example" data-interval="false" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="item active">
+                        <img src="image\크리스마스타이틀.gif">
+                        <div class="carousel-caption">
+                            <h2 class="text-warning"></h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+							<?if($member[user_id]){?>
+								<h1 class="text-center"><?=$member[nick_name]?>님 환영합니다!</h1>
+							<?}else{?>
+								<h1 class="text-center">환영합니다!</h1>
+							<?}?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <img src="image\리눅스5.PNG" class="img-responsive">
+                            <h2>Board</h2>
+                            <p>자유 게시판입니다.
+                                <br>다양한 글을 자유롭게 보고 작성할 수 있습니다.
+                                <br>글들을 자유롭게 읽어보시고
+                                <br>많은 글을 작성하고 댓글도 많이 달아보세요!</p>
+                        </div>
+                        <div class="col-md-4">
+                            <img src="image\music.PNG" class="img-responsive">
+                            <h2>Music</h2>
+                            <p>음악 게시판입니다.
+                                <br>멜론 차트, NCS PLAYER 각각 100개가 넘는 곡이 있습니다.
+                                <br>또한 기타 다양한 노래와 영상들도 있습니다.
+                                <br>다양한 노래와 영상을 들어보세요!</p>
+                        </div>
+                        <div class="col-md-4">
+                            <img src="image\game.PNG" class="img-responsive">
+                            <h2>Game</h2>
+                            <p>게임 게시판입니다.
+                                <br>액션, 전략/시뮬레이션, 퍼즐 게임이 각 각 5개씩 있습니다.
+                                <br>총 15개의 게임들이 존재합니다.
+                                <br>게임을 한번 플레이 해보세요!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h1 class="text-center">제작자</h1>
+                            <p class="text-center">이 사이트 제작자 입니다! 근데 한명 밖에 없어요!</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <img src="http://image.flaticon.com/icons/svg/163/163816.svg" class="center-block img-circle img-responsive">
+                            <h3 class="text-center">김선중</h3>
+                            <p class="text-center">Developer</p>
+                        </div>
+                        <div class="col-md-4">
+                            <img src="http://image.flaticon.com/icons/svg/163/163827.svg" class="center-block img-circle img-responsive">
+                            <h3 class="text-center">김선중</h3>
+                            <p class="text-center">Developer</p>
+                        </div>
+                        <div class="col-md-4">
+                            <img src="http://image.flaticon.com/icons/svg/163/163805.svg" class="center-block img-circle img-responsive">
+                            <h3 class="text-center">김선중</h3>
+                            <p class="text-center">Developer</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer class="section section-primary">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h1>운영체제기초 팀과제!</h1>
+                            <p>본 사이트는 운영체제기초 팀과제 이며 데모가 &nbsp;끝난 후 없어질 예정입니다.
+                                <br>그리고 옆에 있는 아이콘은 그냥 장식용으로 넣었으니
+                                <br>별다른 기능이 없습니다!</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="text-info text-right">
+                                <br>
+                                <br>
+                            </p>
+                            <div class="row">
+                                <div class="col-md-12 hidden-lg hidden-md hidden-sm text-left">
+                                    <a href="#"><i class="fa fa-3x fa-fw fa-instagram text-inverse"></i></a>
+                                    <a href="#"><i class="fa fa-3x fa-fw fa-twitter text-inverse"></i></a>
+                                    <a href="#"><i class="fa fa-3x fa-fw fa-facebook text-inverse"></i></a>
+                                    <a href="#"><i class="fa fa-3x fa-fw fa-github text-inverse"></i></a>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 hidden-xs text-right">
+                                    <a href="#"><i class="fa fa-3x fa-fw fa-instagram text-inverse"></i></a>
+                                    <a href="#"><i class="fa fa-3x fa-fw fa-twitter text-inverse"></i></a>
+                                    <a href="#"><i class="fa fa-3x fa-fw fa-facebook text-inverse"></i></a>
+                                    <a href="#"><i class="fa fa-3x fa-fw fa-github text-inverse"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+    
+
+</body></html>
